@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODOListBySinaSayah</title>
+    <link rel="stylesheet" href="src/css/output.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+    <style>
+        #startBox{
+            
+            transition: all .2s linear;
+          
+        }
+        #taskBox {
+            display: none;
+            transform: translateX(100%);
+            transition: transform 2s ease-in-out;
+            }
+        #inputAndBtnDiv{
+            display: none;
+            transform: translateX(100%);
+            transition: transform 2s ease-in-out;
+        }
+        #mainHeader{
+             display: none;
+             transform: translateX(100%);
+             transition: transform 2s ease-in-out;
+           
+        }
+        aside{
+            display: none;
+            transition: transform 1s ease-in-out;
+            transform: translateX(-100%);
+        }
+
+        
+
+    </style>
+</head>
+<body>
+    <div  class="w-full flex">
+        <!-- sidebar -->
+        <aside class="lg:w-[350px] bg-slate-900 min-h-[100vh] lg:!block lg:!translate-x-0 fixed z-50 lg:static top-0 left-0">
+
+            <div id="profile" class="p-2 flex">
+            <!-- profile & gmail     -->
+                <div class="w-4 h-4 mr-4 rounded-full bg-blue-700 p-5 text-white flex justify-center items-center">SS</div>
+                <div>
+                    <h1 class="text-white text-[16px] font-semibold">Sina Sayah</h1>
+                    <p class="text-white text-[14px]">sinasa2323@gmail.com</p>
+                </div>
+            </div>
+            <!-- search -->
+            <div class="w-full mt-3 px-4">
+                <input type="text" placeholder="Search" class="bg-slate-900 border border-slate-700 px-4  py-1 rounded text-white">
+            </div>
+            <!-- menu list -->
+             <ul id="sidebarList" class="text-white *:flex *:w-full *:items-center p-4 *:gap-2 *:border-b *:py-2 *:cursor-pointer *:transition-all duration-400">
+                <li onclick="showTaskScreen(this)" class="hover:text-yellow-200 hover:border-yellow-200"><span class="mdi mdi-calendar-text-outline mdi-24px"></span>Tasks <span id="taskNumber" class="bg-slate-800 ml-auto text-sm rounded-[100%] px-1">0</span></li>
+                <li onclick="showImportantScreen(this)" class="hover:text-yellow-200 hover:border-yellow-200"><span class="mdi mdi-star-outline mdi-24px"></span>Important <span id="importantNumber" class="bg-slate-800 ml-auto text-sm rounded-[100%] px-1">0</span></li>
+                <li class="hover:text-yellow-200 hover:border-yellow-200"><span class="mdi mdi-flag-checkered mdi-24px"></span>My Goal <span class="bg-slate-800 ml-auto text-sm rounded-[100%] px-1"></span></li>
+             </ul>
+
+        </aside>
+        <!-- end sidebar -->
+
+        <!-- main -->
+
+        <!-- tasksHome Section -->
+        <section id="tasksHomeSection" class="w-full lg:w-[80%] min-h-[100vh] bg-mainBack1 bg-cover overflow-x-hidden">
+            <!-- hamburger Menu -->
+            <button onclick="displayMenu()" class="lg:hidden flex items-center text-slate-100 font-semibold p-3 cursor-pointer"><span class="mdi mdi-menu mdi-24px"></span>Menu</button>
+            <!-- end hamburger Menu -->
+            <!-- header -->
+            <header id="mainHeader" class="h-[20vh] w-full *:text-white flex justify-around md:justify-between items-center md:items-end px-5 md:px-20">
+                <div class="flex items-center gap-2">
+                    
+                   <div>
+                        <svg class="w-[55px] md:w-[80px] h-[55px] md:h-[80px]"  fill="#ccc" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M179.184,170.667h170.667c4.719,0,8.533-3.823,8.533-8.533c0-4.71-3.814-8.533-8.533-8.533H179.184 c-4.71,0-8.533,3.823-8.533,8.533C170.651,166.844,174.474,170.667,179.184,170.667z"></path> <path d="M484.754,351.497l-17.067-17.067c-13.124-13.116-33.092-13.09-46.199,0L309.684,446.234 c-1.604,1.596-2.5,3.772-2.5,6.033v51.2c0,4.71,3.814,8.533,8.533,8.533h51.2c2.27,0,4.437-0.896,6.033-2.5l111.804-111.804 C498.348,384.102,498.348,365.099,484.754,351.497z M410.454,369.596l13.534,13.534l-74.138,74.138l-13.534-13.534 L410.454,369.596z M324.251,494.933v-39.134l39.134,39.134H324.251z M375.451,482.867l-13.534-13.534l74.138-74.138 l13.525,13.534L375.451,482.867z M472.688,385.63l-11.034,11.034l-39.134-39.134l11.034-11.034c6.758-6.75,15.292-6.767,22.067,0 l17.067,17.067C479.591,370.475,479.591,378.726,472.688,385.63z"></path> <path d="M315.717,51.2h17.067c4.719,0,8.533-3.823,8.533-8.533c0-4.71-3.814-8.533-8.533-8.533h-17.067 c-4.719,0-8.533,3.823-8.533,8.533C307.184,47.377,310.998,51.2,315.717,51.2z"></path> <path d="M366.917,102.4c14.114,0,25.6-11.486,25.6-25.6c0-11.11-7.159-20.489-17.067-24.03V8.533c0-4.71-3.814-8.533-8.533-8.533 s-8.533,3.823-8.533,8.533V52.77c-9.907,3.541-17.067,12.919-17.067,24.03C341.317,90.914,352.803,102.4,366.917,102.4z M366.917,68.267c4.71,0,8.533,3.831,8.533,8.533c0,4.702-3.823,8.533-8.533,8.533s-8.533-3.831-8.533-8.533 C358.384,72.098,362.207,68.267,366.917,68.267z"></path> <path d="M179.184,221.867h153.6c4.719,0,8.533-3.823,8.533-8.533c0-4.71-3.814-8.533-8.533-8.533h-153.6 c-4.71,0-8.533,3.823-8.533,8.533C170.651,218.044,174.474,221.867,179.184,221.867z"></path> <path d="M401.051,51.2h17.067c12.442,0,25.6,13.158,25.6,25.6v221.158c0,4.71,3.814,8.533,8.533,8.533s8.533-3.823,8.533-8.533 V76.8c0-21.931-20.736-42.667-42.667-42.667h-17.067c-4.719,0-8.533,3.823-8.533,8.533C392.517,47.377,396.332,51.2,401.051,51.2 z"></path> <path d="M281.584,102.4c14.114,0,25.6-11.486,25.6-25.6c0-11.11-7.159-20.489-17.067-24.03V8.533c0-4.71-3.814-8.533-8.533-8.533 c-4.719,0-8.533,3.823-8.533,8.533V52.77c-9.907,3.541-17.067,12.919-17.067,24.03C255.984,90.914,267.47,102.4,281.584,102.4z M281.584,68.267c4.71,0,8.533,3.831,8.533,8.533c0,4.702-3.823,8.533-8.533,8.533s-8.533-3.831-8.533-8.533 C273.051,72.098,276.874,68.267,281.584,68.267z"></path> <path d="M375.451,264.533c0-4.71-3.814-8.533-8.533-8.533H179.184c-4.71,0-8.533,3.823-8.533,8.533 c0,4.71,3.823,8.533,8.533,8.533h187.733C371.636,273.067,375.451,269.244,375.451,264.533z"></path> <path d="M179.184,307.2c-4.71,0-8.533,3.823-8.533,8.533s3.823,8.533,8.533,8.533h170.667c4.719,0,8.533-3.823,8.533-8.533 s-3.814-8.533-8.533-8.533H179.184z"></path> <path d="M281.584,443.733c4.719,0,8.533-3.823,8.533-8.533s-3.814-8.533-8.533-8.533H34.117V76.8c0-12.442,13.158-25.6,25.6-25.6 h17.067c4.71,0,8.533-3.823,8.533-8.533c0-4.71-3.823-8.533-8.533-8.533H59.717c-21.931,0-42.667,20.736-42.667,42.667v392.533 c0,21.931,20.736,42.667,42.667,42.667h221.867c4.719,0,8.533-3.823,8.533-8.533s-3.814-8.533-8.533-8.533H59.717 c-9.574,0-19.507-7.808-23.612-17.067h245.478c4.719,0,8.533-3.823,8.533-8.533s-3.814-8.533-8.533-8.533H34.117v-17.067H281.584 z"></path> <path d="M127.984,204.8h-17.067c-4.71,0-8.533,3.823-8.533,8.533c0,4.71,3.823,8.533,8.533,8.533h17.067 c4.71,0,8.533-3.823,8.533-8.533C136.517,208.623,132.694,204.8,127.984,204.8z"></path> <path d="M127.984,358.4h-17.067c-4.71,0-8.533,3.823-8.533,8.533s3.823,8.533,8.533,8.533h17.067c4.71,0,8.533-3.823,8.533-8.533 S132.694,358.4,127.984,358.4z"></path> <path d="M230.384,51.2h17.067c4.719,0,8.533-3.823,8.533-8.533c0-4.71-3.814-8.533-8.533-8.533h-17.067 c-4.71,0-8.533,3.823-8.533,8.533C221.851,47.377,225.674,51.2,230.384,51.2z"></path> <path d="M298.651,358.4H179.184c-4.71,0-8.533,3.823-8.533,8.533s3.823,8.533,8.533,8.533h119.467 c4.719,0,8.533-3.823,8.533-8.533S303.37,358.4,298.651,358.4z"></path> <path d="M127.984,153.6h-17.067c-4.71,0-8.533,3.823-8.533,8.533c0,4.71,3.823,8.533,8.533,8.533h17.067 c4.71,0,8.533-3.823,8.533-8.533C136.517,157.423,132.694,153.6,127.984,153.6z"></path> <path d="M127.984,256h-17.067c-4.71,0-8.533,3.823-8.533,8.533c0,4.71,3.823,8.533,8.533,8.533h17.067 c4.71,0,8.533-3.823,8.533-8.533C136.517,259.823,132.694,256,127.984,256z"></path> <path d="M145.051,51.2h17.067c4.71,0,8.533-3.823,8.533-8.533c0-4.71-3.823-8.533-8.533-8.533h-17.067 c-4.71,0-8.533,3.823-8.533,8.533C136.517,47.377,140.34,51.2,145.051,51.2z"></path> <path d="M127.984,307.2h-17.067c-4.71,0-8.533,3.823-8.533,8.533s3.823,8.533,8.533,8.533h17.067c4.71,0,8.533-3.823,8.533-8.533 S132.694,307.2,127.984,307.2z"></path> <path d="M196.251,102.4c14.114,0,25.6-11.486,25.6-25.6c0-11.11-7.151-20.489-17.067-24.03V8.533c0-4.71-3.823-8.533-8.533-8.533 s-8.533,3.823-8.533,8.533V52.77c-9.916,3.541-17.067,12.919-17.067,24.03C170.651,90.914,182.137,102.4,196.251,102.4z M196.251,68.267c4.702,0,8.533,3.831,8.533,8.533c0,4.702-3.831,8.533-8.533,8.533c-4.702,0-8.533-3.831-8.533-8.533 C187.717,72.098,191.549,68.267,196.251,68.267z"></path> <path d="M110.917,102.4c14.114,0,25.6-11.486,25.6-25.6c0-11.11-7.151-20.489-17.067-24.03V8.533c0-4.71-3.823-8.533-8.533-8.533 c-4.71,0-8.533,3.823-8.533,8.533V52.77C92.468,56.311,85.317,65.69,85.317,76.8C85.317,90.914,96.803,102.4,110.917,102.4z M110.917,68.267c4.702,0,8.533,3.831,8.533,8.533c0,4.702-3.831,8.533-8.533,8.533c-4.702,0-8.533-3.831-8.533-8.533 C102.384,72.098,106.215,68.267,110.917,68.267z"></path> </g> </g> </g> </g></svg>
+                   </div>
+                    <div>
+                        <h2 class="font-bold text-xl md:text-2xl">Tasks</h2>
+                        <p class="font-semibold">Lorem, ipsum dolor</p>
+                    </div>
+
+                </div>
+                <div class="flex items-center *:mx-1 md:*:mx-3 *:text-xl md:*:text-3xl *:text-slate-300 *:cursor-pointer">
+                    <span class="mdi mdi-fullscreen"></span>
+                    <span class="mdi mdi-lightbulb-on"></span>
+                    <span class="mdi mdi-dots-horizontal-circle"></span>
+                </div>
+                
+            </header>
+            <!-- end header -->
+
+            <!-- start main content -->
+            <main class="w-full flex flex-wrap justify-center items-center">
+                <!-- startBox -->
+                <div id="startBox" class="mt-[120px] w-[250px] md:w-[370px] h-[250px] flex flex-wrap justify-center items-center bg-[#070708d2] rounded-xl ">
+                    <div><img src="src/svg/download.svg" alt=""></div>
+                    <div class="w-full mt-[-40px] text-center *:py-1">
+                        <h4 class="font-bold text-white md:text-2xl">Make a Todo list</h4>
+                        <p class="font-semibold text-[#ccc] text-sm px-3">type anything in the input to add your tasks</p>
+                        <button id="startBtn" class="bg-slate-900 transition-all duration-300 hover:bg-slate-950 text-white px-7 rounded-md mt-2">START</button>
+                    </div>
+                </div>
+                <!-- end StartBox -->
+
+                <!-- start taskBox -->
+                <div id="taskBox" class="overflow-auto w-10/12 xl:w-[820px] h-[390px] flex-wrap  md:mt-8 bg-[#1d1d21ac] rounded-xl">
+                    <ul id="ul1" class="w-full">
+                        
+                    </ul>
+                    <!-- second list -->
+                    <ul id="ul2" class="w-full mt-7 *:bg-slate-500">
+                        
+                    </ul>
+                </div>
+                <!-- end taskBox -->
+                 <div id="inputAndBtnDiv" class="overflow-auto w-full flex flex-wrap justify-center items-baseline py-2">
+                    <input onkeydown="if(event.key === 'Enter') btnAdd()" type="text" id="taskInput" class="w-full md:w-8/12 xl:w-[675px] border border-[#ccc] mx-16 md:mx-0 py-2 px-2 mb-2 rounded-lg backdrop-blur bg-transparent outline-none text-white" placeholder="please type... (then click on the add task button or press 'Enter')">
+                    <button onclick="btnAdd()" id="btnAdd" class="rounded-lg ml-3 bg-yellow-300 py-2 px-4 font-semibold hover:bg-yellow-400 transition-all duration-300">+ Add Task</button>
+                 </div>
+            </main>
+            <!-- end main content -->
+        </section>
+        <!-- end tasksHomeSection -->
+
+
+
+        <!-- important Section -->
+        
+        <section id="impotantSection" class="hidden w-full lg:w-[80%] min-h-[100vh] bg-importantBack bg-cover">
+            <!-- hamburger Menu -->
+            <button onclick="displayMenu()" class="lg:hidden flex items-center text-slate-100 font-semibold p-3 cursor-pointer"><span class="mdi mdi-menu mdi-24px"></span>Menu</button>
+            <!-- end hamburger Menu -->
+            <div class="w-full p-5 mb-8">
+                <h2 class="font-bold text-xl md:text-3xl text-yellow-500"><span class="mdi mdi-star"></span> Important Notes</h2>
+            </div>
+
+            <ul id="importantList" class="w-full h-[400px] px-10 overflow-auto">
+                
+            </ul>
+
+        </section>
+
+
+        <!-- end important Section -->
+    </div>
+
+
+    <!-- script section ..................................................................................... -->
+    <script>
+        const aside = document.querySelector('aside');
+        const startBox = document.getElementById('startBox');
+        const startBtn = document.getElementById('startBtn');
+        const taskBox = document.getElementById('taskBox');
+        const inputAndBtnDiv = document.getElementById('inputAndBtnDiv');
+        const mainHeader = document.getElementById('mainHeader');
+        // const btnAdd = document.getElementById('btnAdd');
+        const taskInput = document.getElementById('taskInput');
+        const ul1 = document.querySelector('#ul1');
+        const ul2 = document.querySelector('#ul2');
+        
+        //display menu
+            function displayMenu() {
+                setTimeout(() => {
+                    aside.style.display = "block";
+                   
+                }, 300);
+                setTimeout(() => {
+                    
+                    aside.style.transform = "translateX(0)";
+                   
+                }, 600);
+                
+            }
+        //end display menu
+
+        // menu off
+        document.addEventListener('click', function(event) {
+        
+           if(aside.style.display == 'block'){
+             if (!event.target.closest('aside')) {
+                aside.style.transform = "translateX(-100%)";
+                
+                setTimeout(() => {
+                    aside.style.display = "none";
+                }, 1000);
+               
+            }
+           }
+          
+        //    console.log(window.innerWidth);
+        //    if (window.innerWidth >= 1024) {
+        //        console.log("yes");
+        //        aside.style.display = 'block';
+        //         aside.style.transform = "translateX(0)";
+               
+        //    } else{
+        //        console.log("no");
+               
+        //    }
+        });
+         
+        // end menu off
+
+        // mouseMoveEvent for startBox perspective event
+        let wStartBox = startBox.clientWidth/25;
+        let hStartBox = startBox.clientHeight/25;
+        startBox.addEventListener('mousemove', (e) => {
+            let x = e.offsetX;
+            let y = e.offsetY;
+            startBox.style.transform = 'perspective(500px)rotateY('+((x/25)-(wStartBox/2))
+            +'deg)rotateX('+((y/25)-(hStartBox/2))+'deg)';
+            
+            
+        });
+        startBox.addEventListener('mouseout',()=>{
+            startBox.style.transform = '';
+ 
+        })
+         // end mouseMoveEvent for startBox perspective event
+
+         //move the location of the startBox & taskBox
+        startBtn.addEventListener('click', () => {
+            startBox.style.transform = 'translateY(-800px)';
+            startBox.style.transitionDuration = '2s';
+            
+            setTimeout(() => {
+                startBox.remove();
+                taskBox.style.display = 'flex';
+                inputAndBtnDiv.style.display = 'flex';
+                mainHeader.style.display = 'flex';
+            }, 1000);
+            setTimeout(() => {
+                taskBox.style.transform = "translateX(0)";
+                inputAndBtnDiv.style.transform = "translateX(0)";
+                mainHeader.style.transform = "translateY(0)";
+            }, 1500);
+            
+            setTimeout(() => {
+                taskInput.focus();
+            }, 4000);
+        });
+
+        //create list items
+       function btnAdd() {
+         if(taskInput.value != ''){
+            const newTask = document.createElement('li');
+            newTask.className = "text-white bg-[#1d1d21ac] hover:bg-slate-900  duration-500 flex justify-between px-7 py-5";
+            const inputDiv = document.createElement('div');
+            const inputDivChildren =
+             `
+             <input onclick="checkBoxClick(this)" class="appearance-none border border-slate-300 outline-none rounded-full w-[16px] h-[16px] cursor-pointer checked:bg-slate-200 duration-300 focus:ring-1 ring-slate-100" type="checkbox">
+             `;          
+            const text = document.createElement('p');
+            text.textContent = taskInput.value;
+            const editBox = document.createElement('div');
+            const editBoxChildren = 
+            `
+                <span onclick="importantTask(this)" class="mdi mdi-star-outline mx-1 cursor-pointer"></span>
+                <span onclick="editTask(this)" class="mdi mdi-pencil mx-1 cursor-pointer"></span>
+                <span onclick="deleteTask(this)" class="mdi mdi-delete mx-1 cursor-pointer"></span>
+            `; 
+
+            newTask.appendChild(inputDiv);
+            inputDiv.innerHTML = inputDivChildren;
+            newTask.appendChild(text);
+            editBox.innerHTML = editBoxChildren;
+            newTask.appendChild(editBox);
+            taskBox.querySelector('ul').appendChild(newTask);
+            taskInput.value = '';
+            taskInput.focus();
+
+            const list = document.querySelectorAll('#taskBox>ul>li');
+            list.forEach((val,i)=>{
+
+               val.setAttribute('data-i',i);
+                
+            })
+
+             setTaskNumber();
+            
+          }
+       }
+
+
+        function editTask(s){
+            let x = prompt('edit your task name')
+            let y =  s.parentElement.previousElementSibling;
+            if(x){ y.textContent = x;}
+         
+        }
+
+        function deleteTask(s){
+           let x = confirm("Are you sure to delete?");
+           if(x){ s.parentElement.parentElement.remove();}
+           const list = document.querySelectorAll('#taskBox>ul>li');
+            list.forEach((val,i)=>{
+               val.setAttribute('data-i',i);    
+            })
+           setTaskNumber();
+           setImportantNumber();
+            
+        }
+
+        // create task done list
+        function checkBoxClick(inp){
+           
+            if(inp.checked){
+                inp.parentElement.nextElementSibling.style.textDecoration = 'line-through';
+               let li = inp.parentElement.parentElement;
+                li.style.opacity = '0.5';
+                ul2.appendChild(li);
+                inp.parentElement.nextElementSibling.nextElementSibling.children[0].classList.add('hidden');
+                setTaskNumber();
+                setImportantNumber();
+                
+            }else{
+                inp.parentElement.nextElementSibling.style.textDecoration = 'none';
+                inp.parentElement.nextElementSibling.nextElementSibling.children[0].classList.remove('hidden');
+                inp.parentElement.nextElementSibling.nextElementSibling.children[0].classList.replace('mdi-star', 'mdi-star-outline');
+                let li = inp.parentElement.parentElement;
+                li.style.opacity = '1';
+               
+                let item = li.getAttribute('data-i');
+                console.log(item);
+                
+                let ul1 = document.querySelector('#ul1');
+                ul1.insertBefore(li, ul1.children[item]);
+                setTaskNumber();
+                setImportantNumber();
+                
+            
+            }
+        
+        }
+        // end create task done list
+
+        // showTaskScreen & showImportantScreen
+        const tasksHomeSection = document.querySelector('#tasksHomeSection');
+        const impotantSection = document.querySelector('#impotantSection');
+        function showTaskScreen(s){
+            console.log('task screen');
+            tasksHomeSection.classList.remove('hidden')
+            impotantSection.classList.add('hidden')
+
+            
+        }
+
+        function showImportantScreen(s){
+            console.log('important screen');
+            tasksHomeSection.classList.add('hidden')
+            impotantSection.classList.remove('hidden')
+
+           
+            
+        }
+         //end showTaskScreen & showImportantScreen
+
+            // adding task to important section
+            function importantTask(s){
+               
+                if(s.classList.contains('mdi-star-outline')){
+                    s.classList.replace('mdi-star-outline','mdi-star')
+                    let li = s.parentElement.parentElement; // گرفتن عنصر li
+                    let ul = document.querySelector('#importantList'); // پیدا کردن لیست وظایف مهم
+                    ul.appendChild(li); 
+                    setTaskNumber();
+                    setImportantNumber();
+                }else{
+                    s.classList.replace('mdi-star','mdi-star-outline')
+                    //moving li from importantList to ul1
+                    
+                    let li = s.parentElement.parentElement;
+                    let item = li.getAttribute('data-i');
+                    console.log(item);
+            
+                    let ul1 = document.querySelector('#ul1');
+                    ul1.insertBefore(li, ul1.children[item]);
+                    setTaskNumber();
+                    setImportantNumber()
+
+                }
+            }
+
+           function setTaskNumber(){
+           
+            console.log(ul1.children.length);
+            document.querySelector('#taskNumber').innerHTML = ul1.children.length;
+            
+           }
+
+           function setImportantNumber(){
+           let x= document.querySelector('#importantList').children.length;
+            document.querySelector('#importantNumber').innerHTML = x;
+           }
+
+
+    </script>
+</body>
+</html>
